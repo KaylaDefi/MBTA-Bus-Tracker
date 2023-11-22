@@ -1,7 +1,8 @@
 #map-label {
-  position: absolute;
+  position: fixed;
   top: 10px; /* Adjust as needed */
-  left: 436px; /* Adjust as needed */
+  left: 50%; /* Adjust as needed */
+  transform: translateX(-50%);
   background-color: rgba(10, 2, 2, 0.8); 
   color: whitesmoke; 
   padding: 5px 10px;
