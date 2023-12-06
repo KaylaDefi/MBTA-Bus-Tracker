@@ -6,5 +6,5 @@ How to Run: You can run this project on your own machine but you will need an AP
 
 Roadmap of Future Improvements: I'd like to add in specific bus information so you can identify the vehicles by their number and also indicate whether the bus is close to capacity.
 
-Support: For help with this project, please contact k.sherwo1@outlook.com
+Support: For help with this project, please contact me via my website
 
