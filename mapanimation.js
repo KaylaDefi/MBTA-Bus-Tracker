@@ -265,11 +265,12 @@ async function addMarkers(){
 
 // Request bus data from MBTA
 async function getBusLocations(){
-    let url = 'https://api-v3.mbta.com/vehicles?api_key=YOUR_KEY_HERE&filter[route]=1&include=trip';	
-    let response = await fetch(url);
-    let json     = await response.json();
-    return json.data;
+  let url = '/api/getBusLocations'; 
+  let response = await fetch(url);
+  let json = await response.json();
+  return json.data;
 }
+
 
 function addMarker(bus){
     let icon = getIcon(bus);
