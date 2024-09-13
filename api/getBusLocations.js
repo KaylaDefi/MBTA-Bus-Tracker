@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+
 
 module.exports = async (req, res) => {
     const MBTA_API_KEY = process.env.MBTA_API_KEY;
