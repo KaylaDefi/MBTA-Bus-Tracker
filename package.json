@@ -1,0 +1,23 @@
+{
+  "name": "bustracker",
+  "version": "1.0.0",
+  "description": "Real Time Bus Tracker",
+  "main": "mapanimation.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KaylaDefi/MBTA-Bus-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KaylaDefi/MBTA-Bus-Tracker/issues"
+  },
+  "homepage": "https://github.com/KaylaDefi/MBTA-Bus-Tracker#readme",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
