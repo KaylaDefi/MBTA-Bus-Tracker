@@ -247,59 +247,98 @@ function init(){
     addMarkers();
 }
 
-// Add bus markers to map
-async function addMarkers(){
-    let locations = await getBusLocations();
-    locations.forEach(function(bus){
-        let marker = getMarker(bus.id);		
-        if (marker){
-            moveMarker(marker, bus);
-        }
-        else{
-            addMarker(bus);			
-        }
-    });
-    console.log(new Date());
-    setTimeout(addMarkers, 15000);
+async function addMarkers() {
+  try {
+      let locations = await getBusLocations();
+
+      if (locations && locations.length > 0) {
+          console.log("Bus locations retrieved:", locations);
+      } else {
+          console.warn("No bus locations returned by API.");
+          return;
+      }
+
+      locations.forEach(function(bus) {
+          let marker = getMarker(bus.id);
+          if (marker) {
+              moveMarker(marker, bus);
+          } else {
+              addMarker(bus);
+          }
+      });
+
+      console.log("Markers updated at:", new Date());
+
+      setTimeout(addMarkers, 15000);
+  } catch (error) {
+      console.error("Error fetching bus locations:", error);
+  }
 }
 
-// Request bus data from MBTA
-async function getBusLocations(){
+async function getBusLocations() {
   let url = '/api/getBusLocations'; 
-  let response = await fetch(url);
-  let json = await response.json();
-  return json.data;
+
+  try {
+      let response = await fetch(url);
+
+      if (!response.ok) {
+          console.error("Failed to fetch MBTA data. Status:", response.status);
+          return [];
+      }
+
+      let json = await response.json();
+
+      console.log("MBTA API response:", json);
+
+      return json.data;
+  } catch (error) {
+      console.error("Error during fetch:", error);
+      return [];
+  }
 }
 
+function addMarker(bus) {
+  if (!bus.attributes.latitude || !bus.attributes.longitude) {
+      console.error("Bus location data is missing for Bus ID:", bus.id);
+      return;
+  }
 
-function addMarker(bus){
-    let icon = getIcon(bus);
-    let marker = new google.maps.Marker({
-        position: { lat: bus.attributes.latitude, lng: bus.attributes.longitude },
-        map: map,
-        icon: icon,
-        id: bus.id
-    });
-    markers.push(marker);
+  let icon = getIcon(bus);
+
+  console.log("Adding marker for Bus ID:", bus.id, "at position:", bus.attributes.latitude, bus.attributes.longitude);
+
+  let marker = new google.maps.Marker({
+      position: { lat: bus.attributes.latitude, lng: bus.attributes.longitude },
+      map: map,
+      icon: icon,
+      id: bus.id
+  });
+
+  markers.push(marker);
 }
 
-function getIcon(bus){
-    if (bus.attributes.direction_id === 0) {
-        return 'red.png';
-    }
-    return 'blue.png';	
+function getIcon(bus) {
+  console.log("Bus direction ID:", bus.attributes.direction_id);
+
+  if (bus.attributes.direction_id === 0) {
+      return 'red.png';  
+  }
+  return 'blue.png';  
 }
 
 function moveMarker(marker, bus) {
-    let icon = getIcon(bus);
-    marker.setIcon(icon);
-    marker.setPosition({ lat: bus.attributes.latitude, lng: bus.attributes.longitude });
+  let icon = getIcon(bus);
+
+  console.log("Moving marker for Bus ID:", bus.id, "to position:", bus.attributes.latitude, bus.attributes.longitude);
+
+  marker.setIcon(icon);
+  marker.setPosition({ lat: bus.attributes.latitude, lng: bus.attributes.longitude });
 }
 
-function getMarker(id){
-    return markers.find(function(item){
-        return item.id === id;
-    });
+function getMarker(id) {
+  return markers.find(function(item) {
+      return item.id === id;
+  });
 }
 
 window.onload = init;
